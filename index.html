@@ -895,10 +895,11 @@
 
     <style>
     /* Menu Mobile */
-    .mobile-menu {
-        position: fixed;
-        bottom: 2rem;
-        right: 1rem;
+	.mobile-menu {
+		position: fixed;
+		bottom: 2rem;
+		left: 50%;
+		transform: translateX(-50%);
         z-index: 1000;
         display: none;
     }
@@ -927,10 +928,11 @@
         transition: all 0.3s ease;
     }
 
-    .menu-items {
-        position: absolute;
-        bottom: 70px;
-        right: 0;
+	.menu-items {
+		position: absolute;
+		bottom: 70px;
+		left: 50%;
+		transform: translateX(-50%);
         background: var(--card);
         border: 1px solid var(--border);
         border-radius: 16px;
