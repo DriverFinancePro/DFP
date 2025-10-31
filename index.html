@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriverFinance Pro - Controle Financeiro para Motoristas de App</title>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Aumente seu lucro em 40% com o sistema definitivo de controle financeiro para motoristas de Uber, 99 e InDrive.">
+    
+    <style>
+        /* === VARIÁVEIS CSS === */
+        :root {
+            --accent: #00C950;
+            --accent-hover: #00a842;
+            --background: #000000;
+            --foreground: #ffffff;
+            --muted: #666666;
+            --muted-foreground: #a0a0a0;
+            --card: #0a0a0a;
+            --card-foreground: #ffffff;
+            --border: #1a1a1a;
+            --primary: #000000;
+        }
+
+        /* === RESET E BASE === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+		body {
+			font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+			background: var(--background);
+			color: var(--foreground);
+			line-height: 1.6;
+			overflow-x: hidden;
+		}
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* === HEADER STICKY === */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--foreground);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-cta {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, var(--background) 0%, #0a0a0a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--foreground) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--muted-foreground);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--card);
+            border-color: var(--accent);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dashboard-preview {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.1);
+        }
+
+        /* === PROBLEM SOLUTION SECTION === */
+        .problem-solution {
+            padding: 80px 0;
+            background: var(--card);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--foreground) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .problem-side, .solution-side {
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .problem-side {
+            background: linear-gradient(135deg, #1a0f0f 0%, #0a0a0a 100%);
+            border: 1px solid #ff4444;
+        }
+
+        .solution-side {
+            background: linear-gradient(135deg, #0f1a0f 0%, #0a0a0a 100%);
+            border: 1px solid var(--accent);
+        }
+
+        .side-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .problem-side .side-title {
+            color: #ff4444;
+        }
+
+        .solution-side .side-title {
+            color: var(--accent);
+        }
+
+        .problem-list, .solution-list {
+            list-style: none;
+        }
+
+        .problem-item, .solution-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+        }
+
+        .problem-item {
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        .solution-item {
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        /* === BENEFITS SECTION === */
+        .benefits {
+            padding: 80px 0;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .benefits-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .benefit-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .benefit-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
+        }
+
+        .benefit-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .benefit-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        .benefit-description {
+            color: var(--muted-foreground);
+            line-height: 1.6;
+        }
+
+        /* === HOW IT WORKS === */
+        .how-it-works {
+            padding: 80px 0;
+            background: var(--card);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .steps {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-description {
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+        }
+
+        /* === OFFER SECTION === */
+        .offer {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .offer-card {
+            background: linear-gradient(135deg, var(--card) 0%, #0a0a0a 100%);
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .offer-price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 1rem 0;
+        }
+
+        .offer-price-small {
+            font-size: 1rem;
+            color: var(--muted-foreground);
+        }
+
+        .offer-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .offer-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--muted-foreground);
+        }
+
+        .offer-feature::before {
+            content: "✓";
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .offer-guarantee {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 2rem 0;
+        }
+
+        /* === FAQ SECTION === */
+        .faq {
+            padding: 80px 0;
+            background: var(--card);
+        }
+
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--muted-foreground);
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* === FOOTER === */
+        .footer {
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-content {
+                grid-template-columns: 2fr 1fr 1fr;
+                text-align: left;
+            }
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: var(--muted-foreground);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-link {
+            color: var(--muted-foreground);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+			<a href="#" class="logo" style="display: flex; align-items: center; gap: 0.75rem; color: var(--foreground); font-family: 'Inter', sans-serif;">
+				<span style="background: var(--accent); color: var(--foreground); padding: 0.25rem 0.75rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem;">
+					DF
+				</span>
+				DriverFinance Pro
+			</a>
+                <nav class="nav">
+                    <a href="#beneficios" class="nav-link">Benefícios</a>
+                    <a href="#como-funciona" class="nav-link">Como Funciona</a>
+                    <a href="#oferta" class="nav-link">Preço</a>
+                    <a href="#faq" class="nav-link">FAQ</a>
+                    <a href="#oferta" class="nav-cta">Começar Agora</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <div class="hero-badge">🚗 FEITO PARA MOTORISTAS DE APP</div>
+                    <h1 class="hero-title">
+                        Controle Seu Lucro Real Como Um <span style="color: var(--accent);">Profissional</span>
+                    </h1>
+                    <p class="hero-description">
+                        Pare de adivinhar e comece a lucrar de verdade. O DriverFinance Pro mostra exatamente quanto você ganha por hora, por corrida e por km rodado.
+                    </p>
+                    <div class="hero-cta-group">
+                        <a href="#oferta" class="btn btn-primary">Quero Controlar Meu Lucro</a>
+                        <a href="#como-funciona" class="btn btn-secondary">Ver Como Funciona</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-number">+40%</div>
+                            <div class="stat-label">Aumento de Lucro</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">1.2k+</div>
+                            <div class="stat-label">Motoristas</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">4.9/5</div>
+                            <div class="stat-label">Avaliações</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="dashboard-preview">
+                        📊 Dashboard Preview
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem/Solution Section -->
+    <section class="problem-solution">
+        <div class="container">
+            <h2 class="section-title">Deixe as Dores Para Trás</h2>
+            <div class="comparison-grid">
+                <div class="problem-side">
+                    <h3 class="side-title">😫 As Dores do Motorista</h3>
+                    <ul class="problem-list">
+                        <li class="problem-item">Não saber seu lucro real por hora</li>
+                        <li class="problem-item">Surpresas desagradáveis no fim do mês</li>
+                        <li class="problem-item">Horas trabalhadas sem retorno adequado</li>
+                        <li class="problem-item">Falta de controle sobre despesas</li>
+                        <li class="problem-item">Dificuldade para planejar metas</li>
+                    </ul>
+                </div>
+                <div class="solution-side">
+                    <h3 class="side-title">🚀 Com DriverFinance Pro</h3>
+                    <ul class="solution-list">
+                        <li class="solution-item">Lucro por hora calculado automaticamente</li>
+                        <li class="solution-item">Controle total do faturamento e despesas</li>
+                        <li class="solution-item">Metas inteligentes baseadas em dados reais</li>
+                        <li class="solution-item">Alertas quando atingir suas metas</li>
+                        <li class="solution-item">Relatórios profissionais para análise</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="beneficios">
+        <div class="container">
+            <h2 class="section-title">Benefícios Exclusivos</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3 class="benefit-title">Aumento de Lucro</h3>
+                    <p class="benefit-description">Identifique oportunidades e aumente seu lucro em até 40% com dados precisos.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⏱️</div>
+                    <h3 class="benefit-title">Economia de Tempo</h3>
+                    <p class="benefit-description">Registre em segundos e tenha todos os cálculos feitos automaticamente.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h3 class="benefit-title">Controle Total</h3>
+                    <p class="benefit-description">Saiba exatamente seu faturamento por app, despesas e lucro líquido.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3 class="benefit-title">Metas Inteligentes</h3>
+                    <p class="benefit-description">Defina metas realistas e acompanhe seu progresso em tempo real.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">😌</div>
+                    <h3 class="benefit-title">Menos Stress</h3>
+                    <p class="benefit-description">Tenha paz mental sabendo que seu controle financeiro está em dia.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <h3 class="benefit-title">Crescimento</h3>
+                    <p class="benefit-description">Tome decisões estratégicas baseadas em dados para expandir seu negócio.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="como-funciona">
+        <div class="container">
+            <h2 class="section-title">Como Funciona em 4 Passos</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Login Rápido</h3>
+                    <p class="step-description">Entre com Google em segundos</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Registro Simples</h3>
+                    <p class="step-description">Anote corridas e despesas rapidamente</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Controle Automático</h3>
+                    <p class="step-description">Sistema calcula tudo automaticamente</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Resultados</h3>
+                    <p class="step-description">Veja seu lucro em tempo real</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Offer Section -->
+    <section class="offer" id="oferta">
+        <div class="container">
+            <h2 class="section-title">Oferta Especial</h2>
+            <div class="offer-card">
+                <div class="offer-badge">OFERTA LIMITADA</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">DriverFinance Pro</h3>
+                <div class="offer-price">
+                    R$ 97,00
+                    <div class="offer-price-small">ou 12x de R$ 9,70</div>
+                </div>
+                
+                <ul class="offer-features">
+                    <li class="offer-feature">Controle ilimitado de corridas</li>
+                    <li class="offer-feature">Gestão completa de despesas</li>
+                    <li class="offer-feature">Metas e planejamento</li>
+                    <li class="offer-feature">Relatórios detalhados</li>
+                    <li class="offer-feature">Suporte prioritário</li>
+                    <li class="offer-feature">Atualizações gratuitas</li>
+                </ul>
+
+                <div class="offer-guarantee">
+                    🛡️ <strong>Garantia de 7 Dias</strong> - Se não amar, devolvemos seu dinheiro
+                </div>
+
+                <a href="https://hotmart.com/seu-produto" class="btn btn-primary" style="width: 100%;">
+                    🚗 Começar Agora com Garantia
+                </a>
+
+                <p style="margin-top: 1rem; color: var(--muted-foreground); font-size: 0.875rem;">
+                    ⚡ Acesso imediato após a compra
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Perguntas Frequentes</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Preciso de cartão de crédito?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Não! Aceitamos cartão, boleto e PIX. O acesso é liberado assim que o pagamento for confirmado.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Funciona offline?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Sim! Você pode usar o app offline e os dados são sincronizados quando tiver internet.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        É seguro?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Totalmente! Seus dados ficam armazenados com segurança e não compartilhamos informações.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Posso usar no celular e computador?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Sim! O DriverFinance Pro funciona perfeitamente em celulares, tablets e computadores.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">DriverFinance Pro</div>
+                    <p class="footer-description">
+                        O sistema definitivo de controle financeiro para motoristas profissionais de aplicativo.
+                    </p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 1rem;">Links</h4>
+                    <div class="footer-links">
+                        <a href="#beneficios" class="footer-link">Benefícios</a>
+                        <a href="#como-funciona" class="footer-link">Como Funciona</a>
+                        <a href="#oferta" class="footer-link">Preço</a>
+                        <a href="#faq" class="footer-link">FAQ</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 1rem;">Legal</h4>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">Termos de Uso</a>
+                        <a href="#" class="footer-link">Política de Privacidade</a>
+                        <a href="#" class="footer-link">Garantia</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2024 DriverFinance Pro. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const answer = question.nextElementSibling;
+                const isActive = item.classList.contains('active');
+                
+                // Close all others
+                document.querySelectorAll('.faq-item').forEach(faqItem => {
+                    faqItem.classList.remove('active');
+                    faqItem.querySelector('.faq-answer').style.display = 'none';
+                });
+                
+                // Toggle current
+                if (!isActive) {
+                    item.classList.add('active');
+                    answer.style.display = 'block';
+                }
+            });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.9)';
+                header.style.backdropFilter = 'blur(10px)';
+            }
+        });
+    </script>
+</body>
+</html>
