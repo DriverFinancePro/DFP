@@ -877,56 +877,138 @@
         </div>
     </footer>
 
+    <!-- Menu Mobile Flutuante -->
+    <div class="mobile-menu">
+        <button class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="menu-items">
+            <a href="#beneficios" class="menu-item">💎 Benefícios</a>
+            <a href="#como-funciona" class="menu-item">🔄 Como Funciona</a>
+            <a href="#oferta" class="menu-item">💰 Preço</a>
+            <a href="#faq" class="menu-item">❓ FAQ</a>
+            <a href="#oferta" class="menu-item cta">🚀 Começar</a>
+        </div>
+    </div>
+
+    <style>
+    /* Menu Mobile */
+    .mobile-menu {
+        position: fixed;
+        bottom: 2rem;
+        right: 1rem;
+        z-index: 1000;
+        display: none;
+    }
+
+    .menu-toggle {
+        width: 60px;
+        height: 60px;
+        background: var(--accent);
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0, 201, 80, 0.4);
+        transition: all 0.3s ease;
+    }
+
+    .menu-toggle span {
+        width: 24px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .menu-items {
+        position: absolute;
+        bottom: 70px;
+        right: 0;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 1rem;
+        display: none;
+        flex-direction: column;
+        gap: 0.5rem;
+        min-width: 200px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .menu-item {
+        padding: 0.75rem 1rem;
+        color: var(--foreground);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .menu-item:hover {
+        background: rgba(0, 201, 80, 0.1);
+    }
+
+    .menu-item.cta {
+        background: var(--accent);
+        color: var(--primary);
+        font-weight: 700;
+    }
+
+    .mobile-menu.active .menu-items {
+        display: flex;
+    }
+
+    .mobile-menu.active .menu-toggle span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .mobile-menu.active .menu-toggle span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobile-menu.active .menu-toggle span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* Mostrar apenas no mobile */
+    @media (max-width: 767px) {
+        .mobile-menu {
+            display: block;
+        }
+        
+        .header .nav {
+            display: none;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .mobile-menu {
+            display: none;
+        }
+    }
+    </style>
+
     <script>
-        // FAQ Toggle
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                const answer = question.nextElementSibling;
-                const isActive = item.classList.contains('active');
-                
-                // Close all others
-                document.querySelectorAll('.faq-item').forEach(faqItem => {
-                    faqItem.classList.remove('active');
-                    faqItem.querySelector('.faq-answer').style.display = 'none';
-                });
-                
-                // Toggle current
-                if (!isActive) {
-                    item.classList.add('active');
-                    answer.style.display = 'block';
-                }
-            });
-        });
+    // Toggle Menu Mobile
+    document.querySelector('.menu-toggle').addEventListener('click', function() {
+        document.querySelector('.mobile-menu').classList.toggle('active');
+    });
 
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const headerHeight = document.querySelector('.header').offsetHeight;
-                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+    // Fechar menu ao clicar em um item
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelector('.mobile-menu').classList.remove('active');
         });
-
-        // Header background on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(0, 0, 0, 0.95)';
-                header.style.backdropFilter = 'blur(10px)';
-            } else {
-                header.style.background = 'rgba(0, 0, 0, 0.9)';
-                header.style.backdropFilter = 'blur(10px)';
-            }
-        });
+    });
     </script>
 </body>
 </html>
